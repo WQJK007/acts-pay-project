@@ -8,28 +8,28 @@ import java.util.List;
  * @author Wangkh
  */
 public class SyncCommonInfo {
-    private PayLogFee payLogFee;
-    private List<AccessLogFee> accessLogFees;
+    private ActsPayLog actsPayLog;
+    private List<ActsAccessLog> actsAccessLogs;
     private List<AccountDeposit> accountDeposits;
     private RecvCreditMQInfo recvCreditMQInfo;
     private List<JFCreditMQInfo> jfCreditMQInfoList;
     private List<LeaveRealFeeMQInfo> leaveRealFeeMQInfoList;
     private List<SmsMQInfo> smsMQInfoList;
 
-    public PayLogFee getPayLogFee() {
-        return payLogFee;
+    public ActsPayLog getActsPayLog() {
+        return actsPayLog;
     }
 
-    public void setPayLogFee(PayLogFee payLogFee) {
-        this.payLogFee = payLogFee;
+    public void setActsPayLog(ActsPayLog actsPayLog) {
+        this.actsPayLog = actsPayLog;
     }
 
-    public List<AccessLogFee> getAccessLogFees() {
-        return accessLogFees;
+    public List<ActsAccessLog> getActsAccessLogs() {
+        return actsAccessLogs;
     }
 
-    public void setAccessLogFees(List<AccessLogFee> accessLogFees) {
-        this.accessLogFees = accessLogFees;
+    public void setActsAccessLogs(List<ActsAccessLog> actsAccessLogs) {
+        this.actsAccessLogs = actsAccessLogs;
     }
 
     public List<AccountDeposit> getAccountDeposits() {

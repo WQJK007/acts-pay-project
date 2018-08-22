@@ -5,7 +5,7 @@ package com.unicom.acts.pay.domain;
  *
  * @author Wangkh
  */
-public class PayLogFee {
+public class ActsPayLog {
     private String chargeId;
     private String eparchyCode;
     private String cityCode;
@@ -48,7 +48,7 @@ public class PayLogFee {
     private char extendTag;
     private String provinceCode;
 
-    public PayLogFee() {
+    public ActsPayLog() {
         paymentId = -1;
         payFeeModeCode = 0;
         paymentOp = -1;
@@ -438,7 +438,7 @@ public class PayLogFee {
 
     @Override
     public String toString() {
-        return "PayLogFee{" +
+        return "ActsPayLog{" +
                 "chargeId='" + chargeId + '\'' +
                 ", eparchyCode='" + eparchyCode + '\'' +
                 ", cityCode='" + cityCode + '\'' +

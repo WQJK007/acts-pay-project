@@ -5,7 +5,7 @@ package com.unicom.acts.pay.domain;
  *
  * @author Wangkh
  */
-public class AccessLogFee {
+public class ActsAccessLog {
     private String accessId;
     private String chargeId;
     private String acctId;
@@ -23,7 +23,7 @@ public class AccessLogFee {
     private char curTag;
     private String provinceCode;
 
-    public AccessLogFee() {
+    public ActsAccessLog() {
         depositTypeCode = ' ';
         depositCode = -1;
         oldBalance = 0;
@@ -165,7 +165,7 @@ public class AccessLogFee {
 
     @Override
     public String toString() {
-        return "AccessLogFee{" +
+        return "ActsAccessLog{" +
                 "accessId='" + accessId + '\'' +
                 ", chargeId='" + chargeId + '\'' +
                 ", acctId='" + acctId + '\'' +

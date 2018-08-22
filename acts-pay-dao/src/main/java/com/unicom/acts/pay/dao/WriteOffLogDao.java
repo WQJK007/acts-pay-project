@@ -1,7 +1,7 @@
 package com.unicom.acts.pay.dao;
 
-import com.unicom.acts.pay.domain.AccessLogFee;
-import com.unicom.acts.pay.domain.PayLogFee;
+import com.unicom.acts.pay.domain.ActsAccessLog;
+import com.unicom.acts.pay.domain.ActsPayLog;
 import com.unicom.skyark.component.dao.IBaseDao;
 
 import java.util.List;
@@ -26,18 +26,18 @@ public interface WriteOffLogDao extends IBaseDao {
     /**
      * 新增缴费日志记录
      *
-     * @param payLogFee
+     * @param actsPayLog
      * @param provinceCode
      * @return
      */
-    long insertPayLog(PayLogFee payLogFee, String provinceCode);
+    long insertPayLog(ActsPayLog actsPayLog, String provinceCode);
 
     /**
      * 新增存取款日志数据
      *
-     * @param accessLogFeeList
+     * @param actsAccessLogList
      * @param provinceCode
      */
-    void insertAccessLog(List<AccessLogFee> accessLogFeeList, String provinceCode);
+    void insertAccessLog(List<ActsAccessLog> actsAccessLogList, String provinceCode);
 
 }

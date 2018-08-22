@@ -1,7 +1,15 @@
 package com.unicom.acts.pay.domain;
 
+/**
+ * 账务常量定义
+ *
+ * @author Wangkh
+ */
 public class ActsPayPubDef {
-    private ActsPayPubDef(){};
+    private ActsPayPubDef() {
+    }
+
+    ;
     //RDS参数库
     public static final String ACT_RDS_DBCONN = "rds";
     //账务中心数据库
