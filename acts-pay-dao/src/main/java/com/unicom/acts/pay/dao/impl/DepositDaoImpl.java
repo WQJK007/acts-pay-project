@@ -3,6 +3,7 @@ package com.unicom.acts.pay.dao.impl;
 import com.unicom.acts.pay.dao.DepositDao;
 import com.unicom.acts.pay.domain.AccountDeposit;
 import com.unicom.acts.pay.domain.AcctBalanceRel;
+import com.unicom.skyark.component.jdbc.DbTypes;
 import com.unicom.skyark.component.jdbc.dao.impl.JdbcBaseDao;
 import com.unicom.skyark.component.util.StringUtil;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,7 +18,7 @@ import java.util.Map;
 @Repository
 public class DepositDaoImpl extends JdbcBaseDao implements DepositDao {
     @Override
-    public List<AccountDeposit> getAcctDepositByAcctId(String acctId, String provinceCode) {
+    public List<AccountDeposit> getAcctDepositByAcctId(String acctId) {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT ACCT_BALANCE_ID,ACCT_ID,USER_ID,");
         sql.append("DEPOSIT_CODE,DEPOSIT_MONEY,INIT_MONEY,MONEY,");
@@ -31,21 +32,21 @@ public class DepositDaoImpl extends JdbcBaseDao implements DepositDao {
         sql.append("WHERE ACCT_ID=:VACCT_ID");
         Map<String, String> param = new HashMap<>();
         param.put("VACCT_ID", acctId);
-        return this.getJdbcTemplate(provinceCode).query(sql.toString(), param, new PAcctDepositMapper());
+        return this.getJdbcTemplate(DbTypes.ACTS_DRDS).query(sql.toString(), param, new PAcctDepositMapper());
     }
 
     @Override
-    public List<AcctBalanceRel> getAcctBalanceRelByAcctId(String acctId, String provinceCode) {
+    public List<AcctBalanceRel> getAcctBalanceRelByAcctId(String acctId) {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT ACCT_BALANCE_ID,ACCT_BALANCE_ID2,ACCT_ID,RATE ");
         sql.append("FROM TF_F_ACCTBALANCE_REL WHERE ACCT_ID = :VACCT_ID ");
         Map<String, String> param = new HashMap<>();
         param.put("VACCT_ID", acctId);
-        return this.getJdbcTemplate(provinceCode).query(sql.toString(), param, new PAcctBalanceRelMapper());
+        return this.getJdbcTemplate(DbTypes.ACTS_DRDS).query(sql.toString(), param, new PAcctBalanceRelMapper());
     }
 
     @Override
-    public long insertAccountDeposit(AccountDeposit accountDeposit, String provinceCode) {
+    public long insertAccountDeposit(AccountDeposit accountDeposit) {
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO TF_F_ACCOUNTDEPOSIT(ACCT_BALANCE_ID,ACCT_ID,");
         sql.append("USER_ID,DEPOSIT_CODE,DEPOSIT_MONEY,INIT_MONEY,MONEY,");
@@ -95,11 +96,11 @@ public class DepositDaoImpl extends JdbcBaseDao implements DepositDao {
         param.put("VRSRV_FEE2", String.valueOf(accountDeposit.getRsrvFee2()));
         param.put("VRSRV_FEE1", String.valueOf(accountDeposit.getRsrvFee1()));
         param.put("VLIMIT_LEFT", String.valueOf(accountDeposit.getLimitLeft()));
-        return this.getJdbcTemplate(provinceCode).update(sql.toString(), param);
+        return this.getJdbcTemplate(DbTypes.ACTS_DRDS).update(sql.toString(), param);
     }
 
     @Override
-    public long updateAccountDeposit(AccountDeposit accountDeposit, String provinceCode) {
+    public long updateAccountDeposit(AccountDeposit accountDeposit) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE TF_F_ACCOUNTDEPOSIT SET DEPOSIT_MONEY = :VDEPOSIT_MONEY,");
         sql.append("INIT_MONEY = :VINIT_MONEY,MONEY = :VMONEY,LIMIT_MONEY = :VLIMIT_MONEY,");
@@ -121,11 +122,11 @@ public class DepositDaoImpl extends JdbcBaseDao implements DepositDao {
         param.put("VOWE_FEE", String.valueOf(accountDeposit.getOweFee()));
         param.put("VVERSION_NO", String.valueOf(accountDeposit.getVersionNo()));
         param.put("VUPDATE_TIME", accountDeposit.getUpdateTime());
-        return this.getJdbcTemplate(provinceCode).update(sql.toString(), param);
+        return this.getJdbcTemplate(DbTypes.ACTS_DRDS).update(sql.toString(), param);
     }
 
     @Override
-    public long updateAcctDepoistOweFee(String acctId, long oweFee, int openCycleId, String provinceCode) {
+    public long updateAcctDepoistOweFee(String acctId, long oweFee, int openCycleId) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE TF_F_ACCOUNTDEPOSIT SET OWE_FEE = :VOWE_FEE,");
         sql.append("OPEN_CYCLE_ID = :VOPEN_CYCLE_ID WHERE ACCT_ID = :VACCT_ID ");
@@ -133,11 +134,11 @@ public class DepositDaoImpl extends JdbcBaseDao implements DepositDao {
         param.put("VOWE_FEE", String.valueOf(oweFee));
         param.put("VOPEN_CYCLE_ID", String.valueOf(openCycleId));
         param.put("VACCT_ID", String.valueOf(acctId));
-        return this.getJdbcTemplate(provinceCode).update(sql.toString(), param);
+        return this.getJdbcTemplate(DbTypes.ACTS_DRDS).update(sql.toString(), param);
     }
 
     @Override
-    public long updateAcctDepoistOweFeeByAcctBalanceId(String acctId, String acctBalanceId, long oweFee, int openCycleId, String provinceCode) {
+    public long updateAcctDepoistOweFeeByAcctBalanceId(String acctId, String acctBalanceId, long oweFee, int openCycleId) {
         StringBuilder sql = new StringBuilder();
         sql.append("UPDATE TF_F_ACCOUNTDEPOSIT SET OWE_FEE=:VOWE_FEE,");
         sql.append("OPEN_CYCLE_ID=:VOPEN_CYCLE_ID ");
@@ -147,7 +148,7 @@ public class DepositDaoImpl extends JdbcBaseDao implements DepositDao {
         param.put("VOPEN_CYCLE_ID", String.valueOf(openCycleId));
         param.put("VACCT_ID", acctId);
         param.put("VACCT_BALANCE_ID", acctBalanceId);
-        return this.getJdbcTemplate(provinceCode).update(sql.toString(), param);
+        return this.getJdbcTemplate(DbTypes.ACTS_DRDS).update(sql.toString(), param);
     }
 
 

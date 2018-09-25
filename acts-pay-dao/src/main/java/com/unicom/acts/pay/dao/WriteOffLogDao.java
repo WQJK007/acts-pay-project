@@ -18,26 +18,23 @@ public interface WriteOffLogDao extends IBaseDao {
      *
      * @param acctId
      * @param chargrId
-     * @param provinceCode
      * @return
      */
-    boolean isExistsPayLog(String acctId, String chargrId, String provinceCode);
+    boolean isExistsPayLog(String acctId, String chargrId);
 
     /**
      * 新增缴费日志记录
      *
-     * @param actsPayLog
-     * @param provinceCode
+     * @param actsPayLogs
      * @return
      */
-    long insertPayLog(ActsPayLog actsPayLog, String provinceCode);
+    void insertPayLog(List<ActsPayLog> actsPayLogs);
 
     /**
      * 新增存取款日志数据
      *
      * @param actsAccessLogList
-     * @param provinceCode
      */
-    void insertAccessLog(List<ActsAccessLog> actsAccessLogList, String provinceCode);
+    void insertAccessLog(List<ActsAccessLog> actsAccessLogList);
 
 }

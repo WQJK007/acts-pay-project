@@ -3,6 +3,7 @@ package com.unicom.acts.pay.dao.impl;
 import com.unicom.acts.pay.dao.WriteOffLogDao;
 import com.unicom.acts.pay.domain.ActsAccessLog;
 import com.unicom.acts.pay.domain.ActsPayLog;
+import com.unicom.skyark.component.jdbc.DbTypes;
 import com.unicom.skyark.component.jdbc.dao.impl.JdbcBaseDao;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
@@ -15,14 +16,14 @@ import java.util.Map;
 @Repository
 public class WriteOffLogDaoImpl extends JdbcBaseDao implements WriteOffLogDao {
     @Override
-    public boolean isExistsPayLog(String acctId, String chargrId, String provinceCode) {
+    public boolean isExistsPayLog(String acctId, String chargrId) {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT 1 FROM TF_B_PAYLOG WHERE ACCT_ID = :VACCT_ID ");
         sql.append("AND CHARGE_ID = :VCHARGE_ID");
         Map param = new HashMap();
         param.put("VACCT_ID", acctId);
         param.put("VCHARGE_ID", chargrId);
-        List<String> resultList = this.getJdbcTemplate(provinceCode).queryForList(sql.toString(), param, String.class);
+        List<String> resultList = this.getJdbcTemplate(DbTypes.ACTS_DRDS).queryForList(sql.toString(), param, String.class);
         if (!CollectionUtils.isEmpty(resultList)) {
             return true;
         }
@@ -30,7 +31,7 @@ public class WriteOffLogDaoImpl extends JdbcBaseDao implements WriteOffLogDao {
     }
 
     @Override
-    public long insertPayLog(ActsPayLog actsPayLog, String provinceCode) {
+    public void insertPayLog(List<ActsPayLog> actsPayLogs) {
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO TF_B_PAYLOG(CHARGE_ID,PROVINCE_CODE,EPARCHY_CODE,");
         sql.append("CITY_CODE,CUST_ID,USER_ID,SERIAL_NUMBER,NET_TYPE_CODE,ACCT_ID,CHANNEL_ID,");
@@ -52,52 +53,57 @@ public class WriteOffLogDaoImpl extends JdbcBaseDao implements WriteOffLogDao {
         sql.append(":VCANCEL_EPARCHY_CODE,STR_TO_DATE(:VCANCEL_TIME,'%Y-%m-%d %T'),");
         sql.append(":VCANCEL_CHARGE_ID,:VRSRV_FEE1,:VRSRV_FEE2,");
         sql.append(":VRSRV_INFO1)");
-        Map<String, String> param = new HashMap<>();
-        param.put("VCHARGE_ID", actsPayLog.getChargeId());
-        param.put("VPROVINCE_CODE", actsPayLog.getProvinceCode());
-        param.put("VEPARCHY_CODE", actsPayLog.getEparchyCode());
-        param.put("VCITY_CODE", actsPayLog.getCityCode());
-        param.put("VCUST_ID", actsPayLog.getCustId());
-        param.put("VUSER_ID", actsPayLog.getUserId());
-        param.put("VSERIAL_NUMBER", actsPayLog.getSerialNumber());
-        param.put("VNET_TYPE_CODE", actsPayLog.getNetTypeCode());
-        param.put("VACCT_ID", actsPayLog.getAcctId());
-        param.put("VCHANNEL_ID", actsPayLog.getChannelId());
-        param.put("VPAYMENT_ID", String.valueOf(actsPayLog.getPaymentId()));
-        param.put("VPAY_FEE_MODE_CODE", String.valueOf(actsPayLog.getPayFeeModeCode()));
-        param.put("VPAYMENT_OP", String.valueOf(actsPayLog.getPaymentOp()));
-        param.put("VRECV_FEE", String.valueOf(actsPayLog.getRecvFee()));
-        param.put("VLIMIT_MONEY", String.valueOf(actsPayLog.getLimitMoney()));
-        param.put("VRECV_TIME", actsPayLog.getRecvTime());
-        param.put("VRECV_EPARCHY_CODE", actsPayLog.getRecvEparchyCode());
-        param.put("VRECV_CITY_CODE", actsPayLog.getRecvCityCode());
-        param.put("VRECV_DEPART_ID", actsPayLog.getRecvDepartId());
-        param.put("VRECV_STAFF_ID", actsPayLog.getRecvStaffId());
-        param.put("VPAYMENT_REASON_CODE", String.valueOf(actsPayLog.getPaymentReasonCode()));
-        param.put("VINPUT_NO", actsPayLog.getInputNo());
-        param.put("VINPUT_MODE", String.valueOf(actsPayLog.getInputMode()));
-        param.put("VOUTER_TRADE_ID", actsPayLog.getOuterTradeId());
-        param.put("VACT_TAG", String.valueOf(actsPayLog.getActTag()));
-        param.put("VEXTEND_TAG", String.valueOf(actsPayLog.getExtendTag()));
-        param.put("VACTION_CODE", String.valueOf(actsPayLog.getActionCode()));
-        param.put("VACTION_EVENT_ID", actsPayLog.getActionEventId());
-        param.put("VPAYMENT_RULE_ID", String.valueOf(actsPayLog.getPaymentRuleId()));
-        param.put("VREMARK", actsPayLog.getRemark());
-        param.put("VCANCEL_TAG", String.valueOf(actsPayLog.getCancelTag()));
-        param.put("VCANCEL_STAFF_ID", actsPayLog.getCancelStaffId());
-        param.put("VCANCEL_DEPART_ID", actsPayLog.getCancelDepartId());
-        param.put("VCANCEL_CITY_CODE", actsPayLog.getCancelCityCode());
-        param.put("VCANCEL_EPARCHY_CODE", actsPayLog.getCancelEparchyCode());
-        param.put("VCANCEL_TIME", actsPayLog.getCancelTime());
-        param.put("VCANCEL_CHARGE_ID", actsPayLog.getCancelChargeId());
-        param.put("VRSRV_FEE1", String.valueOf(actsPayLog.getRsrvFee1()));
-        param.put("VRSRV_FEE2", String.valueOf(actsPayLog.getRsrvFee2()));
-        param.put("VRSRV_INFO1", actsPayLog.getRsrvInfo1());
-        return this.getJdbcTemplate(provinceCode).update(sql.toString(), param);
+        List params = new ArrayList(2);
+        for (ActsPayLog actsPayLog : actsPayLogs) {
+            Map<String, String> param = new HashMap();
+            param.put("VCHARGE_ID", actsPayLog.getChargeId());
+            param.put("VPROVINCE_CODE", actsPayLog.getProvinceCode());
+            param.put("VEPARCHY_CODE", actsPayLog.getEparchyCode());
+            param.put("VCITY_CODE", actsPayLog.getCityCode());
+            param.put("VCUST_ID", actsPayLog.getCustId());
+            param.put("VUSER_ID", actsPayLog.getUserId());
+            param.put("VSERIAL_NUMBER", actsPayLog.getSerialNumber());
+            param.put("VNET_TYPE_CODE", actsPayLog.getNetTypeCode());
+            param.put("VACCT_ID", actsPayLog.getAcctId());
+            param.put("VCHANNEL_ID", actsPayLog.getChannelId());
+            param.put("VPAYMENT_ID", String.valueOf(actsPayLog.getPaymentId()));
+            param.put("VPAY_FEE_MODE_CODE", String.valueOf(actsPayLog.getPayFeeModeCode()));
+            param.put("VPAYMENT_OP", String.valueOf(actsPayLog.getPaymentOp()));
+            param.put("VRECV_FEE", String.valueOf(actsPayLog.getRecvFee()));
+            param.put("VLIMIT_MONEY", String.valueOf(actsPayLog.getLimitMoney()));
+            param.put("VRECV_TIME", actsPayLog.getRecvTime());
+            param.put("VRECV_EPARCHY_CODE", actsPayLog.getRecvEparchyCode());
+            param.put("VRECV_CITY_CODE", actsPayLog.getRecvCityCode());
+            param.put("VRECV_DEPART_ID", actsPayLog.getRecvDepartId());
+            param.put("VRECV_STAFF_ID", actsPayLog.getRecvStaffId());
+            param.put("VPAYMENT_REASON_CODE", String.valueOf(actsPayLog.getPaymentReasonCode()));
+            param.put("VINPUT_NO", actsPayLog.getInputNo());
+            param.put("VINPUT_MODE", String.valueOf(actsPayLog.getInputMode()));
+            param.put("VOUTER_TRADE_ID", actsPayLog.getOuterTradeId());
+            param.put("VACT_TAG", String.valueOf(actsPayLog.getActTag()));
+            param.put("VEXTEND_TAG", String.valueOf(actsPayLog.getExtendTag()));
+            param.put("VACTION_CODE", String.valueOf(actsPayLog.getActionCode()));
+            param.put("VACTION_EVENT_ID", actsPayLog.getActionEventId());
+            param.put("VPAYMENT_RULE_ID", String.valueOf(actsPayLog.getPaymentRuleId()));
+            param.put("VREMARK", actsPayLog.getRemark());
+            param.put("VCANCEL_TAG", String.valueOf(actsPayLog.getCancelTag()));
+            param.put("VCANCEL_STAFF_ID", actsPayLog.getCancelStaffId());
+            param.put("VCANCEL_DEPART_ID", actsPayLog.getCancelDepartId());
+            param.put("VCANCEL_CITY_CODE", actsPayLog.getCancelCityCode());
+            param.put("VCANCEL_EPARCHY_CODE", actsPayLog.getCancelEparchyCode());
+            param.put("VCANCEL_TIME", actsPayLog.getCancelTime());
+            param.put("VCANCEL_CHARGE_ID", actsPayLog.getCancelChargeId());
+            param.put("VRSRV_FEE1", String.valueOf(actsPayLog.getRsrvFee1()));
+            param.put("VRSRV_FEE2", String.valueOf(actsPayLog.getRsrvFee2()));
+            param.put("VRSRV_INFO1", actsPayLog.getRsrvInfo1());
+            params.add(param);
+        }
+
+        this.getJdbcTemplate(DbTypes.ACTS_DRDS).batchUpdate(sql.toString(), (Map<String, String>[]) params.toArray(new Map[params.size()]));
     }
 
     @Override
-    public void insertAccessLog(List<ActsAccessLog> logs, String provinceCode) {
+    public void insertAccessLog(List<ActsAccessLog> logs) {
         StringBuilder sql = new StringBuilder();
         sql.append("INSERT INTO TF_B_ACCESSLOG(ACCESS_ID,CHARGE_ID,ACCT_ID,");
         sql.append("ACCT_BALANCE_ID,DEPOSIT_CODE,OLD_BALANCE,MONEY,NEW_BALANCE,");
@@ -108,12 +114,12 @@ public class WriteOffLogDaoImpl extends JdbcBaseDao implements WriteOffLogDao {
         sql.append(":VACCESS_TAG,STR_TO_DATE(:VOPERATE_TIME,'%Y-%m-%d %T'),");
         sql.append(":VPROVINCE_CODE,:VEPARCHY_CODE,:VCANCEL_TAG,:VINVOICE_FEE)");
         List params = new ArrayList(logs.size());
-        for(ActsAccessLog pActsAccessLog : logs) {
+        for (ActsAccessLog pActsAccessLog : logs) {
             Map<String, String> param = new HashMap<>();
-            param.put("VACCESS_ID", pActsAccessLog.getAccessId ());
+            param.put("VACCESS_ID", pActsAccessLog.getAccessId());
             param.put("VCHARGE_ID", pActsAccessLog.getChargeId());
-            param.put("VACCT_ID", pActsAccessLog.getAcctId ());
-            param.put("VACCT_BALANCE_ID", pActsAccessLog.getAcctBalanceId ());
+            param.put("VACCT_ID", pActsAccessLog.getAcctId());
+            param.put("VACCT_BALANCE_ID", pActsAccessLog.getAcctBalanceId());
             param.put("VDEPOSIT_CODE", String.valueOf(pActsAccessLog.getDepositCode()));
             param.put("VACCESS_TAG", String.valueOf(pActsAccessLog.getAccessTag()));
             param.put("VOLD_BALANCE", String.valueOf(pActsAccessLog.getOldBalance()));
@@ -126,8 +132,7 @@ public class WriteOffLogDaoImpl extends JdbcBaseDao implements WriteOffLogDao {
             param.put("VINVOICE_FEE", String.valueOf(pActsAccessLog.getInvoiceFee()));
             params.add(param);
         }
-        this.getJdbcTemplate(provinceCode).batchUpdate(sql.toString(), (Map<String, String>[]) params.toArray(new Map[params.size()]));
-
+        this.getJdbcTemplate(DbTypes.ACTS_DRDS).batchUpdate(sql.toString(), (Map<String, String>[]) params.toArray(new Map[params.size()]));
     }
 
 

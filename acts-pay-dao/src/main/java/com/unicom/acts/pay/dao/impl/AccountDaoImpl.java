@@ -2,6 +2,7 @@ package com.unicom.acts.pay.dao.impl;
 
 import com.unicom.acts.pay.dao.AccountDao;
 import com.unicom.acts.pay.domain.AcctPaymentCycle;
+import com.unicom.skyark.component.jdbc.DbTypes;
 import com.unicom.skyark.component.jdbc.dao.impl.JdbcBaseDao;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class AccountDaoImpl extends JdbcBaseDao implements AccountDao {
 
     @Override
-    public AcctPaymentCycle getAcctPaymentCycle(String acctId, String provinceCode) {
+    public AcctPaymentCycle getAcctPaymentCycle(String acctId) {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT A.OFFSET_DAYS, A.OFFSET_MONTHS, A.BUNDLE_MONTHS,");
         sql.append("DATE_FORMAT(B.IN_DATE, '%Y%m') IN_DATE FROM TD_B_PAYMENT_CYCLE A,");
@@ -25,7 +26,8 @@ public class AccountDaoImpl extends JdbcBaseDao implements AccountDao {
         sql.append("AND B.ACCT_ID = :VACCT_ID AND B.ACT_TAG = '1'");
         Map<String, String> param = new HashMap<>();
         param.put("VACCT_ID", acctId);
-        List<AcctPaymentCycle> results = this.getJdbcTemplate(provinceCode).query(sql.toString(), param, new AcctPaymentCycleRowMapper());
+        List<AcctPaymentCycle> results = this.getJdbcTemplate(DbTypes.ACTS_DRDS)
+                .query(sql.toString(), param, new AcctPaymentCycleRowMapper());
         if (!CollectionUtils.isEmpty(results)) {
             return results.get(0);
         }
@@ -33,13 +35,13 @@ public class AccountDaoImpl extends JdbcBaseDao implements AccountDao {
     }
 
     @Override
-    public int genLockAccount(String acctId, String provinceCode) {
+    public int genLockAccount(String acctId) {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT 1 FROM TF_F_ACCOUNT WHERE ACCT_ID = TO_NUMBER(:VACCT_ID) ");
         sql.append("FOR UPDATE NOWAIT");
         Map<String, String> param = new HashMap<>();
         param.put("VACCT_ID", acctId);
-        return this.getJdbcTemplate(provinceCode).update(sql.toString(), param);
+        return this.getJdbcTemplate(DbTypes.ACTS_DRDS).update(sql.toString(), param);
     }
 
     //账户自定义缴费期

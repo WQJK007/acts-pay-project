@@ -14,7 +14,7 @@
     <packaging>pom</packaging>
     <name>acts-pay-parent</name>
     <description>cBSS系统账户中心交易类公共业务组件-父模块</description>
-
+    
     <build>
         <pluginManagement>
             <plugins>
@@ -76,15 +76,9 @@
                                 </pluginExecution>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.maven.plugins
-                                        </groupId>
-                                        <artifactId>
-                                            maven-enforcer-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.3.1,)
-                                        </versionRange>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-enforcer-plugin</artifactId>
+                                        <versionRange>[1.3.1,)</versionRange>
                                         <goals>
                                             <goal>enforce</goal>
                                         </goals>
@@ -95,15 +89,9 @@
                                 </pluginExecution>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.maven.plugins
-                                        </groupId>
-                                        <artifactId>
-                                            maven-dependency-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [2.8,)
-                                        </versionRange>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-dependency-plugin</artifactId>
+                                        <versionRange>[2.8,)</versionRange>
                                         <goals>
                                             <goal>copy</goal>
                                         </goals>
@@ -114,15 +102,9 @@
                                 </pluginExecution>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.maven.plugins
-                                        </groupId>
-                                        <artifactId>
-                                            maven-plugin-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [3.2,)
-                                        </versionRange>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-plugin-plugin</artifactId>
+                                        <versionRange>[3.2,)</versionRange>
                                         <goals>
                                             <goal>descriptor</goal>
                                             <goal>helpmojo</goal>
@@ -134,15 +116,9 @@
                                 </pluginExecution>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>
-                                            org.codehaus.mojo
-                                        </groupId>
-                                        <artifactId>
-                                            build-helper-maven-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.9.1,)
-                                        </versionRange>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>build-helper-maven-plugin</artifactId>
+                                        <versionRange>[1.9.1,)</versionRange>
                                         <goals>
                                             <goal>
                                                 reserve-network-port
@@ -155,14 +131,10 @@
                                 </pluginExecution>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.maven.plugins
-                                        </groupId>
-                                        <artifactId>
-                                            maven-checkstyle-plugin
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-checkstyle-plugin
                                         </artifactId>
-                                        <versionRange>
-                                            [2.16,)
+                                        <versionRange>[2.16,)
                                         </versionRange>
                                         <goals>
                                             <goal>
@@ -176,15 +148,9 @@
                                 </pluginExecution>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>
-                                            org.apache.maven.plugins
-                                        </groupId>
-                                        <artifactId>
-                                            maven-invoker-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.0.0,)
-                                        </versionRange>
+                                        <groupId>org.apache.maven.plugins</groupId>
+                                        <artifactId>maven-invoker-plugin</artifactId>
+                                        <versionRange>[1.0.0,)</versionRange>
                                         <goals>
                                             <goal>
                                                 install
@@ -197,15 +163,9 @@
                                 </pluginExecution>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>
-                                            org.codehaus.mojo
-                                        </groupId>
-                                        <artifactId>
-                                            flatten-maven-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.0.0,)
-                                        </versionRange>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>flatten-maven-plugin</artifactId>
+                                        <versionRange>[1.0.0,)</versionRange>
                                         <goals>
                                             <goal>flatten</goal>
                                         </goals>

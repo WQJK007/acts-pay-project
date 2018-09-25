@@ -13,18 +13,16 @@ public interface AccountDao extends IBaseDao {
      * 账户自定义缴费期
      *
      * @param acctId
-     * @param provinceCode
      * @return
      */
-    AcctPaymentCycle getAcctPaymentCycle(String acctId, String provinceCode);
+    AcctPaymentCycle getAcctPaymentCycle(String acctId);
 
     /**
      * 获取账户表行锁
      * 待删除
      *
      * @param acctId
-     * @param provinceCode
      * @return
      */
-    int genLockAccount(String acctId, String provinceCode);
+    int genLockAccount(String acctId);
 }

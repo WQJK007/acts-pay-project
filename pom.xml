@@ -2,35 +2,67 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <parent>
-        <artifactId>skyark-component-parent</artifactId>
         <groupId>com.unicom.skyark.component</groupId>
-        <version>1.0.0.RELEASE</version>
+        <artifactId>skyark-component-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath/>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.unicom.acts.pay</groupId>
-    <artifactId>acts-pay-project</artifactId>
-    <version>${revision}</version>
-    <packaging>pom</packaging>
-    <name>acts-pay-project</name>
-    <description>cBSS系统账户中心交易类业务组件工程</description>
-
-    <modules>
-        <module>acts-pay-dependencies</module>
-        <module>acts-pay-domain</module>
-        <module>acts-pay-dao</module>
-        <module>acts-pay-service</module>
-        <module>acts-pay-parent</module>
-    </modules>
-
     <properties>
+        <revision>1.0.0-SNAPSHOT</revision>
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <revision>1.0.0.RELEASE</revision>
     </properties>
+
+    <groupId>com.unicom.acts.pay</groupId>
+    <artifactId>acts-pay-project</artifactId>
+    <packaging>pom</packaging>
+    <version>${revision}</version>
+    <name>acts-pay-project</name>
+    <description>cBSS系统账户中心交易类业务组件工程</description>
+
+    <modules>
+        <module>acts-pay-dependencies</module>
+        <module>acts-pay-parent</module>
+        <module>acts-pay-domain</module>
+        <module>acts-pay-dao</module>
+        <module>acts-pay-syncserv</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>boot-repackage</id>
+                        <phase>none</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <name>nexus</name>
+            <url>http://10.124.142.81/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

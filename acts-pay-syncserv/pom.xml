@@ -8,18 +8,21 @@
         <version>${revision}</version>
         <relativePath>../acts-pay-parent</relativePath>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>acts-pay-domain</artifactId>
-    <packaging>jar</packaging>
-
-    <name>acts-pay-domain</name>
-    <description>cBSS系统账户中心交易类业务公共domain组件</description>
+    <artifactId>acts-pay-syncserv</artifactId>
+    <name>acts-pay-syncserv</name>
+    <description>cBSS系统账务中心交易类业务公共service组件</description>
 
     <dependencies>
         <dependency>
             <groupId>com.unicom.skyark.component</groupId>
-            <artifactId>skyark-component</artifactId>
+            <artifactId>skyark-component-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.unicom.acts.pay</groupId>
+            <artifactId>acts-pay-dao</artifactId>
         </dependency>
     </dependencies>
 </project>
